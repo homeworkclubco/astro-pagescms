@@ -1,0 +1,40 @@
+{
+  "name": "astro-pagescms",
+  "version": "0.1.0",
+  "description": "Astro integration for Pages CMS — generates content.config.ts from .pages.yml",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "peerDependencies": {
+    "astro": ">=4.0.0"
+  },
+  "dependencies": {
+    "lodash.mergewith": "^4.6.2",
+    "yaml": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/lodash.mergewith": "^4.6.9",
+    "@types/node": "^20.0.0",
+    "astro": ">=4.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0",
+    "zod": "^3.25.76"
+  },
+  "license": "MIT",
+  "author": "Ronan Berder"
+}

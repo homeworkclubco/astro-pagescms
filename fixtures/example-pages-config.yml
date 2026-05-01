@@ -1,0 +1,330 @@
+media:
+  input: src/assets/uploads
+  # Relative to src/content/pages/ — Astro resolves this for image optimisation
+  output: ../../assets/uploads
+
+components:
+  image_with_alt:
+    type: object
+    fields:
+      - { name: src, label: Image, type: image }
+      - { name: alt, label: Alt text, type: string }
+  seo:
+    type: object
+    label: SEO & social sharing
+    fields:
+      - name: title
+        label: "SEO title"
+        description: "Recommended under 60 characters"
+        type: string
+      - name: description
+        label: "Meta description"
+        description: "Recommended 150-160 characters"
+        type: text
+      - name: image
+        label: "Social share image"
+        description: "recommended: 1200×630px"
+        type: image
+  sections:
+    label: Page sections
+    type: block
+    list:
+      collapsible:
+        collapsed: true
+        summary: "{type}"
+    blockKey: type
+    blocks:
+      - name: imageHeroBlock
+        label: Image Hero
+        fields:
+          - { name: id, label: Anchor ID, type: string }
+          - { name: heading, label: Heading, type: string }
+          - { name: subtitle, label: Subtitle, type: string }
+          - { name: image, label: Image, type: image, required: true }
+          - { name: imageAlt, label: Image alt text, type: string }
+          - { name: minHeight, label: Min height (e.g. 28rem), type: string }
+          - name: colorScheme
+            label: Colour scheme
+            type: select
+            options:
+              values: [ "light", "dark" ]
+      - name: headingBlock
+        label: Heading Block
+        fields:
+          - { name: heading, label: Heading, type: string }
+          - { name: subtitle, label: Subtitle, type: string }
+          - { name: id, label: Anchor ID, type: string }
+          - name: pt
+            label: Padding top
+            type: select
+            options:
+              values: [ "none", "sm", "md", "lg", "xl", "2xl" ]
+          - name: pb
+            label: Padding bottom
+            type: select
+            options:
+              values: [ "none", "sm", "md", "lg", "xl", "2xl" ]
+      - name: videoHeroBlock
+        label: Video Hero
+        fields:
+          - { name: id, label: Anchor ID, type: string }
+          - { name: src, label: YouTube URL, type: string, required: true }
+      - name: contactBlock
+        label: Contact
+        fields:
+          - { name: id, label: Anchor ID, type: string }
+          - { name: heading, label: Heading, type: string }
+          - { name: subtitle, label: Subtitle, type: string }
+      - name: leadBlock
+        label: Lead Block
+        fields:
+          - { name: id, label: Anchor ID, type: string }
+          - { name: heading, label: Heading, type: string }
+          - { name: body, label: Body, type: rich-text }
+      - name: textBlock
+        label: Text Block
+        fields:
+          - { name: id, label: Anchor ID, type: string }
+          - { name: heading, label: Heading, type: string }
+          - { name: body, label: Body, type: rich-text }
+      - name: clientLogosBlock
+        label: Client Logos
+        fields:
+          - { name: id, label: Anchor ID, type: string }
+          - { name: heading, label: Heading, type: string }
+          - { name: subtitle, label: Subtitle, type: string }
+      - name: serviceCardsBlock
+        label: Service Cards
+        fields:
+          - { name: id, label: Anchor ID, type: string }
+          - { name: heading, label: Heading, type: string }
+          - { name: subtitle, label: Subtitle, type: string }
+      - name: caseStudyGridBlock
+        label: Case Study Grid
+        fields:
+          - { name: id, label: Anchor ID, type: string }
+          - { name: heading, label: Heading, type: string }
+          - { name: subtitle, label: Subtitle, type: string }
+          - name: order
+            label: Case studies (drag to reorder; unselected appear after, alphabetically)
+            type: reference
+            list: true
+            options:
+              collection: case_studies
+              value: "{fields.uuid}"
+              search: title
+              label: "{fields.title}"
+      - name: galleryBlock
+        label: Gallery
+        fields:
+          - { name: id, label: Anchor ID, type: string }
+          - { name: heading, label: Heading, type: string }
+          - name: images
+            label: Images
+            component: image_with_alt
+            list: true
+      - name: mediaTextBlock
+        label: Media + Text
+        fields:
+          - { name: id, label: Anchor ID, type: string }
+          - { name: heading, label: Heading, type: string }
+          - { name: body, label: Body, type: rich-text }
+          - name: image
+            label: Image
+            component: image_with_alt
+          - name: mediaSide
+            label: Media side
+            type: select
+            options:
+              values: [ "left", "right" ]
+          - name: padding
+            label: Padding
+            type: select
+            options:
+              values: [ "none", "sm", "md", "lg", "xl", "2xl" ]
+          - name: fixedRatio
+            label: Image ratio (e.g. 4/3, 16/9)
+            type: string
+          - name: cta
+            label: CTA
+            type: object
+            fields:
+              - { name: label, label: Label, type: string }
+              - { name: href, label: URL, type: string }
+      - name: tileGridBlock
+        label: Tile Grid
+        fields:
+          - { name: id, label: Anchor ID, type: string }
+          - name: columns
+            label: Columns
+            type: select
+            options:
+              values: [ "2", "3" ]
+          - name: items
+            label: Tiles
+            type: object
+            list: true
+            fields:
+              - { name: title, label: Title, type: string }
+              - { name: image, label: Image, type: image }
+              - { name: imageAlt, label: Image alt text, type: string }
+              - { name: href, label: Link URL, type: string }
+              - { name: cta, label: CTA label, type: string }
+      - name: textGridBlock
+        label: Text Grid
+        fields:
+          - { name: id, label: Anchor ID, type: string }
+          - { name: heading, label: Heading, type: string }
+          - { name: subtitle, label: Subtitle, type: string }
+          - name: items
+            label: Items
+            type: object
+            list: true
+            fields:
+              - { name: title, label: Title, type: string }
+              - { name: body, label: Body, type: rich-text }
+
+content:
+  - name: pages
+    label: Pages
+    type: collection
+    path: src/content/pages
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      primary: title
+    fields:
+      - {
+          name: uuid,
+          label: UUID,
+          type: uuid,
+          options: { editable: false, generate: false },
+        }
+      - { name: title, label: Title (Internal reference), type: string }
+      - { name: description, label: Description, type: text }
+      - { name: slug, label: URL slug (e.g. about or services/events), type: string }
+      - name: seo
+        component: seo
+      - name: sections
+        component: sections
+
+  - name: clients
+    label: Clients
+    type: file
+    path: src/content/clients.json
+    format: json
+    list: true
+    fields:
+      - { name: name, label: Name, type: string }
+      - { name: logo, label: Logo, type: image }
+
+  - name: services
+    label: Services
+    type: collection
+    path: src/content/services
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      primary: title
+      sort: order
+      order: asc
+    fields:
+      - {
+          name: uuid,
+          label: UUID,
+          type: uuid,
+          options: { editable: false, generate: false },
+        }
+      - { name: title, label: Title, type: string }
+      - { name: description, label: Description, type: text }
+      - { name: slug, label: URL slug (e.g. brand-strategy), type: string }
+      - { name: icon, label: Icon (SVG), type: image }
+      - { name: cta, label: CTA label, type: string }
+      - { name: order, label: Display order, type: number }
+      - name: seo
+        component: seo
+      - name: sections
+        component: sections
+
+  - name: testimonials
+    label: Testimonials
+    type: file
+    list: true
+    path: src/content/testimonials.json
+    format: json
+    fields:
+      - {
+          name: uuid,
+          label: UUID,
+          type: uuid,
+          options: { editable: false, generate: false },
+        }
+      - { name: quote, label: Quote, type: text }
+      - { name: author, label: Author, type: string }
+      - { name: role, label: Role, type: string }
+      - { name: logo, label: Logo, type: image }
+      - { name: logoAlt, label: Logo alt text, type: string }
+
+  - name: redirects
+    label: Redirects
+    type: file
+    list: true
+    path: src/content/redirects.json
+    format: json
+    fields:
+      - { name: from, label: "From (e.g. /old-path)", type: string, required: true }
+      - {
+          name: to,
+          label: "To (e.g. /new-path or https://example.com)",
+          type: string,
+          required: true,
+        }
+      - name: status
+        label: Status code
+        type: select
+        required: true
+        default: "301"
+        options:
+          values:
+            - { value: "301", label: "301 Permanent" }
+            - { value: "302", label: "302 Temporary" }
+
+  - name: case_studies
+    label: Case Studies
+    type: collection
+    path: src/content/caseStudies
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      primary: title
+    fields:
+      - {
+          name: uuid,
+          label: UUID,
+          type: uuid,
+          options: { editable: false, generate: false },
+        }
+      - { name: title, label: Title, type: string, required: true }
+      - name: client
+        label: Client
+        type: reference
+        options:
+          collection: clients
+          value: "{fields.name}"
+          search: name
+          label: "{fields.name}"
+      - name: featuredImage
+        label: Featured image
+        component: image_with_alt
+        required: true
+      - { name: excerpt, label: Excerpt (shown on index tile), type: text }
+      - name: seo
+        label: SEO & social sharing
+        component: seo
+      - name: gallery
+        label: Image gallery
+        component: image_with_alt
+        list: true
+      - name: body
+        label: Body
+        type: rich-text
