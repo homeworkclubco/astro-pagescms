@@ -14,7 +14,7 @@ const pages = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/pages" }),
   schema: ({ image }) =>
     z.object({
-  uuid: z.uuid().optional(),
+  uuid: z.string().uuid().optional(),
   title: z.string().optional(),
   description: z.string().optional(),
   slug: z.string().optional(),
@@ -154,7 +154,7 @@ const services = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/services" }),
   schema: ({ image }) =>
     z.object({
-  uuid: z.uuid().optional(),
+  uuid: z.string().uuid().optional(),
   title: z.string().optional(),
   description: z.string().optional(),
   slug: z.string().optional(),
@@ -289,7 +289,7 @@ const testimonials = defineCollection({
   }),
   schema: ({ image }) =>
     z.object({
-  uuid: z.uuid().optional(),
+  uuid: z.string().uuid().optional(),
   quote: z.string().optional(),
   author: z.string().optional(),
   role: z.string().optional(),
@@ -314,7 +314,7 @@ const caseStudies = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/caseStudies" }),
   schema: ({ image }) =>
     z.object({
-  uuid: z.uuid().optional(),
+  uuid: z.string().uuid().optional(),
   title: z.string(),
   client: z.string().optional(),
   featuredImage: z.object({
@@ -351,7 +351,7 @@ import { defineCollection } from 'astro:content';
 const pages = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/pages" }),
   schema: z.object({
-  uuid: z.uuid().optional(),
+  uuid: z.string().uuid().optional(),
   title: z.string().optional(),
   description: z.string().optional(),
   slug: z.string().optional(),
@@ -489,7 +489,7 @@ const clients = defineCollection({
 const services = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/services" }),
   schema: z.object({
-  uuid: z.uuid().optional(),
+  uuid: z.string().uuid().optional(),
   title: z.string().optional(),
   description: z.string().optional(),
   slug: z.string().optional(),
@@ -623,7 +623,7 @@ const testimonials = defineCollection({
     },
   }),
   schema: z.object({
-  uuid: z.uuid().optional(),
+  uuid: z.string().uuid().optional(),
   quote: z.string().optional(),
   author: z.string().optional(),
   role: z.string().optional(),
@@ -647,7 +647,7 @@ const redirects = defineCollection({
 const caseStudies = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/caseStudies" }),
   schema: z.object({
-  uuid: z.uuid().optional(),
+  uuid: z.string().uuid().optional(),
   title: z.string(),
   client: z.string().optional(),
   featuredImage: z.object({

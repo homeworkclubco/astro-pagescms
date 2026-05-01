@@ -27,7 +27,7 @@ function baseSchema(field: Field, opts: CodegenOpts): string {
       return 'z.boolean()';
 
     case 'uuid':
-      return 'z.uuid()';
+      return 'z.string().uuid()';
 
     case 'date':
       return 'z.string()';
@@ -38,9 +38,14 @@ function baseSchema(field: Field, opts: CodegenOpts): string {
     case 'reference': {
       const isMultiple =
         field.multiple === true ||
+        field.options?.multiple === true ||
         (typeof field.list === 'boolean' && field.list) ||
         (typeof field.list === 'object' && field.list !== null);
-      if (isMultiple) return 'z.array(z.string()).default([])';
+      if (isMultiple) {
+        const min = typeof field.options?.min === 'number' ? `.min(${field.options.min})` : '';
+        const max = typeof field.options?.max === 'number' ? `.max(${field.options.max})` : '';
+        return `z.array(z.string())${min}${max}.default([])`;
+      }
       return 'z.string()';
     }
 
@@ -98,7 +103,8 @@ function selectSchema(field: Field): string {
 
   if (isMultiple) {
     const min = field.options?.min;
-    schema = `z.array(${schema})${min != null ? `.min(${min})` : ''}`;
+    const max = field.options?.max;
+    schema = `z.array(${schema})${min != null ? `.min(${min})` : ''}${max != null ? `.max(${max})` : ''}`;
   }
 
   return schema;
@@ -172,6 +178,7 @@ function applyOptionalOrDefault(schema: string, field: Field): string {
   if (field.type === 'reference') {
     const isMultiple =
       field.multiple === true ||
+      field.options?.multiple === true ||
       (typeof field.list === 'boolean' && field.list) ||
       (typeof field.list === 'object' && field.list !== null);
     if (isMultiple) return schema;
@@ -236,7 +243,9 @@ export function collectionToTs(
     return `  ${f.name}: ${fieldToZod(f, fieldOpts)}`;
   });
 
-  const schemaBody = `z.object({\n${schemaEntries.join(',\n')},\n})`;
+  const schemaBody = schemaEntries.length === 0
+    ? 'z.object({})'
+    : `z.object({\n${schemaEntries.join(',\n')},\n})`;
 
   if (isGlob) {
     const needsImage = opts.imageMode === 'astro' && fields.some((f) => fieldTreeUsesImage(f));
